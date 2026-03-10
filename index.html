@@ -40,6 +40,14 @@
         .section-box { padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); flex-shrink: 0; }
         .section-title { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: #888; margin-bottom: 10px; display: block; letter-spacing: 2px; }
         
+        /* Galeri Düzeni */
+        .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
+        .gallery-item { 
+            width: 100%; height: 100px; object-fit: cover; border-radius: 10px; 
+            border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: 0.3s;
+        }
+        .gallery-item:hover { transform: scale(1.05); border-color: #00ff88; }
+
         .social-link {
             text-decoration: none; color: white; background: rgba(255, 255, 255, 0.1);
             padding: 12px; border-radius: 12px; font-size: 0.85rem; display: flex;
@@ -72,6 +80,17 @@
     </div>
 
     <div class="sidebar" id="sidebar">
+        <div class="section-box">
+            <span class="section-title">Fotoğraf Galerisi</span>
+            <div class="gallery-grid">
+                <img src="img/resim1.jpg" class="gallery-item" onclick="window.open(this.src)">
+                <img src="img/resim2.jpg" class="gallery-item" onclick="window.open(this.src)">
+                <img src="img/resim3.jpg" class="gallery-item" onclick="window.open(this.src)">
+                <img src="img/resim4.jpg" class="gallery-item" onclick="window.open(this.src)">
+            </div>
+            <p style="font-size: 0.6rem; margin-top: 10px; opacity: 0.5;">* Fotoğrafa tıklayarak büyütebilirsin.</p>
+        </div>
+
         <div class="section-box">
             <span class="section-title">Terminal Mesajı Bırak</span>
             <div id="msgCounter" style="font-size: 0.75rem; color: #00ff88; margin-bottom: 10px; font-weight: 600;">0 mesaj gönderildi</div>
@@ -125,30 +144,22 @@
     </div>
 
     <script>
-        // MESAJ SAYACI SİSTEMİ
+        // KODUN GERİ KALANINDAKİ JAVASCRIPT AYNI KALIYOR...
         let msgCount = parseInt(localStorage.getItem('seolxMsgCount')) || 0;
         document.getElementById('msgCounter').innerText = msgCount + " mesaj gönderildi";
+        function countMessage() { msgCount++; localStorage.setItem('seolxMsgCount', msgCount); }
 
-        function countMessage() {
-            msgCount++;
-            localStorage.setItem('seolxMsgCount', msgCount);
-        }
-
-        // SAAT & MENÜ SİSTEMİ
         const music = document.getElementById("bgMusic");
         const btn = document.getElementById("musicBtn");
         let hasStarted = false;
-
         function toggleMenu() {
             document.getElementById('sidebar').classList.toggle('active');
             if (!hasStarted) { music.play().catch(e => console.log("Etkileşim bekleniyor")); hasStarted = true; }
         }
-
         function toggleMusic() {
             if (music.paused) { music.play(); btn.innerHTML = "⏸️ Müziği Durdur"; }
             else { music.pause(); btn.innerHTML = "▶️ Müziği Başlat"; }
         }
-
         function updateClock() {
             const now = new Date();
             let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
@@ -160,7 +171,6 @@
         }
         setInterval(updateClock, 1000); updateClock();
 
-        // ARAÇLAR (KRONOMETRE & ZAMANLAYICI)
         let chronoInterval, seconds = 0;
         function startChrono() { clearInterval(chronoInterval); chronoInterval = setInterval(() => { seconds++; updateChronoDisplay(); }, 1000); }
         function stopChrono() { clearInterval(chronoInterval); }
