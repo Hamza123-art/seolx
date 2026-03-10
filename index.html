@@ -25,7 +25,6 @@
 
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        /* --- MENÜ TUŞU --- */
         .menu-btn {
             position: fixed; top: 25px; left: 25px; z-index: 1001; cursor: pointer;
             background: rgba(255, 255, 255, 0.1); padding: 12px; border-radius: 12px;
@@ -33,28 +32,22 @@
             transition: 0.3s;
         }
 
-        /* --- YAN PANEL (KAYDIRMA ÖZELLİĞİ EKLENDİ) --- */
         .sidebar {
             position: fixed; top: 0; left: -350px; width: 320px; height: 100%;
             background: rgba(10, 10, 30, 0.95); backdrop-filter: blur(25px);
             z-index: 1000; transition: 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
-            padding: 80px 20px 40px 20px; /* Alt boşluk eklendi */
+            padding: 80px 20px 40px 20px;
             border-right: 1px solid rgba(255, 255, 255, 0.1);
             display: flex; flex-direction: column; gap: 20px;
-            
-            /* KAYDIRMA AYARLARI */
-            overflow-y: auto; /* Dikey kaydırmayı açar */
-            scrollbar-width: thin; /* Firefox için ince çubuk */
+            overflow-y: auto;
+            scrollbar-width: thin;
             scrollbar-color: rgba(255,255,255,0.2) transparent;
         }
 
-        /* Chrome ve Safari için Kaydırma Çubuğu Tasarımı */
         .sidebar::-webkit-scrollbar { width: 4px; }
         .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
-
         .sidebar.active { left: 0; }
 
-        /* --- DİĞER TASARIMLAR --- */
         .glass-card {
             background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 40px;
@@ -106,6 +99,7 @@
             <a href="https://x.com/Hmayan20" target="_blank" class="social-link">🐦 X (Twitter)</a>
             <a href="https://discord.gg/CmM9fdWc" target="_blank" class="social-link">💬 Discord</a>
             <a href="https://instagram.com/hamza.gsafs" target="_blank" class="social-link">📸 Instagram</a>
+            <a href="https://www.youtube.com" target="_blank" class="social-link" style="color: #FF0000;">🎬 YouTube</a>
         </div>
 
         <div class="footer-text">© 2026 Seolx Web Sunucusu <br> Tüm Hakları Saklıdır.</div>
@@ -124,7 +118,7 @@
 
         function toggleMenu() {
             document.getElementById('sidebar').classList.toggle('active');
-            if (!hasStarted) { music.play().catch(e => console.log("Müzik bekleniyor")); hasStarted = true; }
+            if (!hasStarted) { music.play().catch(e => console.log("Etkileşim bekleniyor")); hasStarted = true; }
         }
 
         function toggleMusic() {
