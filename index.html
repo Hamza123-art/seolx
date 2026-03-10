@@ -32,7 +32,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- MENÜ TUŞU (Sol Üst) --- */
+        /* --- MENÜ TUŞU --- */
         .menu-btn {
             position: fixed;
             top: 25px;
@@ -47,8 +47,6 @@
             transition: 0.3s;
         }
 
-        .menu-btn:hover { background: rgba(255, 255, 255, 0.2); }
-
         .menu-btn div {
             width: 25px;
             height: 3px;
@@ -58,14 +56,14 @@
             border-radius: 2px;
         }
 
-        /* --- YAN PANEL (Sidebar) --- */
+        /* --- YAN PANEL --- */
         .sidebar {
             position: fixed;
             top: 0;
-            left: -350px; /* Başlangıçta gizli */
+            left: -350px;
             width: 320px;
             height: 100%;
-            background: rgba(15, 12, 41, 0.8);
+            background: rgba(10, 10, 30, 0.9);
             backdrop-filter: blur(25px);
             z-index: 999;
             transition: 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
@@ -78,70 +76,81 @@
 
         .sidebar.active { left: 0; }
 
-        /* --- ANA SAAT KARTI --- */
+        /* --- ANA SAAT --- */
         .glass-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 40px;
             padding: 60px 40px;
             text-align: center;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
             width: 100%;
             max-width: 500px;
-            transition: 0.5s;
         }
 
         #greeting { font-size: 1rem; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 10px; opacity: 0.7; }
-        #clock { font-size: 4.5rem; font-weight: 600; margin-bottom: 10px; color: #fff; text-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        #clock { font-size: 4.5rem; font-weight: 600; margin-bottom: 10px; }
         #date { font-size: 1rem; opacity: 0.5; }
 
-        /* --- PANEL İÇERİĞİ --- */
-        .about-section {
+        /* --- İÇERİK STİLLERİ --- */
+        .section-box {
             padding: 20px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 20px;
-            border: 1px dashed rgba(255, 255, 255, 0.2);
-            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .about-title { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: #aaa; margin-bottom: 10px; display: block; }
-        .about-text { font-size: 0.95rem; line-height: 1.6; opacity: 0.9; }
-
-        .social-container { display: flex; flex-direction: column; gap: 12px; }
+        .section-title { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: #888; margin-bottom: 10px; display: block; letter-spacing: 2px; }
+        
         .social-link {
             text-decoration: none;
             color: white;
             background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 15px;
-            font-size: 0.95rem;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             transition: 0.3s;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 8px;
+            border: none;
+            width: 100%;
+            cursor: pointer;
         }
 
-        .social-link:hover { background: rgba(255, 255, 255, 0.2); transform: translateX(10px); }
+        .social-link:hover { background: rgba(255, 255, 255, 0.2); transform: translateX(5px); }
 
-        .footer { position: absolute; bottom: 30px; font-size: 0.7rem; opacity: 0.4; left: 30px; }
+        .footer { position: absolute; bottom: 30px; font-size: 0.6rem; opacity: 0.3; }
     </style>
 </head>
 <body>
 
     <div class="menu-btn" onclick="toggleMenu()">
-        <div></div>
-        <div></div>
-        <div></div>
+        <div></div><div></div><div></div>
     </div>
 
     <div class="sidebar" id="sidebar">
-        <div class="about-section">
-            <span class="about-title">Hakkımda</span>
-            <p class="about-text">Sanalın İçinden Geçmek İçin Doğdum.</p>
+        
+        <div class="section-box">
+            <span class="section-title">Müzik Çalar</span>
+            <p style="font-size: 0.8rem; margin-bottom: 10px; opacity: 0.8;">Büyük İnsan (Instrumental)</p>
+            <button onclick="toggleMusic()" id="musicBtn" class="social-link">
+                ▶️ Müziği Başlat
+            </button>
+            <audio id="bgMusic" loop>
+                <source src="buyuk-insan.mp3" type="audio/mpeg">
+            </audio>
         </div>
 
-        <div class="social-container">
+        <div class="section-box">
+            <span class="section-title">Hakkımda</span>
+            <p style="font-size: 0.9rem; line-height: 1.5;">Sanalın İçinden Geçmek İçin Doğdum.</p>
+        </div>
+
+        <div class="section-box" style="background: none; border: none; padding: 0;">
+            <span class="section-title">Sosyal Medya</span>
             <a href="https://www.tiktok.com/@farazi1881" target="_blank" class="social-link">🎵 TikTok</a>
             <a href="https://x.com/Hmayan20" target="_blank" class="social-link">🐦 X (Twitter)</a>
             <a href="https://discord.gg/CmM9fdWc" target="_blank" class="social-link">💬 Discord</a>
@@ -158,12 +167,25 @@
     </div>
 
     <script>
-        // Menü Aç/Kapat Fonksiyonu
         function toggleMenu() {
             document.getElementById('sidebar').classList.toggle('active');
         }
 
-        // Saat Fonksiyonu
+        // Müzik Kontrolü
+        const music = document.getElementById("bgMusic");
+        const btn = document.getElementById("musicBtn");
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play().catch(e => alert("Müzik dosyası henüz yüklenmemiş olabilir."));
+                btn.innerHTML = "⏸️ Müziği Durdur";
+            } else {
+                music.pause();
+                btn.innerHTML = "▶️ Müziği Başlat";
+            }
+        }
+
+        // Saat Güncelleme
         function updateClock() {
             const now = new Date();
             let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
