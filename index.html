@@ -3,62 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Benim Web Sitem | Hoş Geldiniz</title>
-    <meta name="description" content="Kendi projelerimi ve çalışmalarımı paylaştığım kişisel web sitem.">
-    
+    <title>Seolx | Dijital Evren</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* Tasarım (CSS) - Kontrol Tamamen Sende */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* Dinamik Hareketli Arka Plan */
+            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #000000);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: white;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 40px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            width: 90%;
+            max-width: 500px;
+            transition: transform 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        #greeting {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            opacity: 0.8;
+            font-weight: 300;
+        }
+
+        #clock {
+            font-size: 4.5rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            background: linear-gradient(to right, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #date {
+            font-size: 1rem;
+            opacity: 0.5;
+            margin-bottom: 30px;
+        }
+
+        .social-container {
             display: flex;
             flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            text-decoration: none;
+            color: white;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 15px;
+            border-radius: 20px;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
-            color: #333;
+            gap: 10px;
         }
-        .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            text-align: center;
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform: translateX(5px);
         }
-        h1 { color: #007bff; }
-        #clock {
-            font-size: 3rem;
-            font-weight: bold;
-            margin: 20px 0;
-            color: #444;
+
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.7rem;
+            opacity: 0.4;
+            letter-spacing: 1px;
         }
-        p { font-size: 1.1rem; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Merhaba, Bu Benim Sitem!</h1>
-        <p>Hamza AYHAN</p>
-        
+    <div class="glass-card">
+        <div id="greeting">Hoş Geldin</div>
         <div id="clock">00:00:00</div>
-        
-        <p>Bu site tamamen benim kontrolümde.</p>
+        <div id="date">Yükleniyor...</div>
+
+        <div class="social-container">
+            <a href="https://instagram.com/kullaniciadin" target="_blank" class="social-link">
+                <span>📸</span> Instagram
+            </a>
+            <a href="https://github.com/Hamza123-art" target="_blank" class="social-link">
+                <span>💻</span> GitHub
+            </a>
+            <a href="https://youtube.com/@kullaniciadin" target="_blank" class="social-link">
+                <span>📺</span> YouTube
+            </a>
+        </div>
     </div>
 
+    <div class="footer">SEOLX.VERCEL.APP • 2026</div>
+
     <script>
-        /* Etkileşim (JavaScript) - js.org onayı için önemli */
         function updateClock() {
             const now = new Date();
-            const timeString = now.toLocaleTimeString('tr-TR');
-            document.getElementById('clock').textContent = timeString;
-        }
-        
-        // Saati her saniye güncelle
-        setInterval(updateClock, 1000);
-        updateClock(); // Sayfa açılınca hemen çalıştır
-    </script>
+            let h = now.getHours();
+            let m = now.getMinutes();
+            let s = now.getSeconds();
 
+            h = h < 10 ? "0" + h : h;
+            m = m < 10 ? "0" + m : m;
+            s = s < 10 ? "0" + s : s;
+
+            document.getElementById("clock").innerText = h + ":" + m + ":" + s;
+
+            let greeting = "";
+            if (h >= 5 && h < 12) greeting = "Günaydın Hamza";
+            else if (h >= 12 && h < 18) greeting = "Tünaydın Hamza";
+            else if (h >= 18 && h < 22) greeting = "İyi Akşamlar Hamza";
+            else greeting = "İyi Geceler Hamza";
+            
+            document.getElementById("greeting").innerText = greeting;
+
+            const options = { day: 'numeric', month: 'long', year: 'numeric', weekday: 'long' };
+            document.getElementById("date").innerText = now.toLocaleDateString('tr-TR', options);
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 </body>
 </html>
