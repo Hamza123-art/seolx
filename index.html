@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benim Web Sitem | Hoş Geldiniz</title>
+    <meta name="description" content="Kendi projelerimi ve çalışmalarımı paylaştığım kişisel web sitem.">
+    
+    <style>
+        /* Tasarım (CSS) - Kontrol Tamamen Sende */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1 { color: #007bff; }
+        #clock {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #444;
+        }
+        p { font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Merhaba, Bu Benim Sitem!</h1>
+        <p>Yazılım dünyasına ilk adımımı attım. İşte canlı saat uygulamam:</p>
+        
+        <div id="clock">00:00:00</div>
+        
+        <p>Bu site tamamen benim kontrolümde.</p>
+    </div>
+
+    <script>
+        /* Etkileşim (JavaScript) - js.org onayı için önemli */
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('tr-TR');
+            document.getElementById('clock').textContent = timeString;
+        }
+        
+        // Saati her saniye güncelle
+        setInterval(updateClock, 1000);
+        updateClock(); // Sayfa açılınca hemen çalıştır
+    </script>
+
+</body>
+</html>
