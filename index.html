@@ -3,117 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seolx | Gemini Core</title>
+    <title>Seolx | Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: #000; color: white; overflow: hidden; height: 100vh; }
-        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; display: flex; justify-content: center; align-items: center; background: #000; }
-        .enter-btn { background: #fff; color: #000; border: none; padding: 20px 60px; font-size: 1.1rem; font-weight: 700; border-radius: 50px; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
+
+        /* GİRİŞ EKRANI */
+        #login-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 10000; display: flex; justify-content: center; align-items: center;
+            background: #000; transition: opacity 0.6s ease-out;
+        }
+        .login-content { text-align: center; }
+        .login-content h1 { font-family: 'Bebas Neue', sans-serif; font-size: 8rem; color: #fff; letter-spacing: 15px; text-shadow: 0 0 40px rgba(66, 133, 244, 0.4); margin-bottom: 20px; }
+        .enter-btn { 
+            background: #fff; color: #000; border: none; padding: 20px 60px; 
+            font-size: 1.1rem; font-weight: 700; border-radius: 50px; cursor: pointer; 
+            transition: 0.3s; text-transform: uppercase; letter-spacing: 2px;
+        }
+        .enter-btn:hover { background: #4285F4; color: white; transform: scale(1.05); box-shadow: 0 0 40px rgba(66, 133, 244, 0.8); }
+
+        /* ANA EKRAN */
         #main-site { display: none; opacity: 0; transition: 1s ease-in; }
         .dashboard-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: radial-gradient(circle at center, #1a1a2e 0%, #000 100%); }
-        .sidebar { position: fixed; top: 0; width: 340px; height: 100%; background: rgba(10, 10, 30, 0.95); backdrop-filter: blur(25px); z-index: 1000; transition: 0.5s; padding: 30px 20px; border-right: 1px solid rgba(66, 133, 244, 0.2); display: flex; flex-direction: column; }
-        .sidebar-left { left: -350px; } .sidebar-left.active { left: 0; }
-        .sidebar-right { right: -350px; } .sidebar-right.active { right: 0; }
-        .menu-btn { position: fixed; top: 25px; z-index: 1001; cursor: pointer; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; }
+
+        /* YAN MENÜLER */
+        .sidebar {
+            position: fixed; top: 0; width: 340px; height: 100%;
+            background: rgba(10, 10, 30, 0.95); backdrop-filter: blur(25px);
+            z-index: 1000; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); padding: 30px 20px;
+            border-right: 1px solid rgba(66, 133, 244, 0.2); display: flex; flex-direction: column;
+        }
+        .sidebar-left { left: -350px; } .sidebar-left.active { left: 0; border-right: 1px solid #4285F4; }
+        .sidebar-right { right: -350px; } .sidebar-right.active { right: 0; border-left: 1px solid #4285F4; }
+        
+        .menu-btn { position: fixed; top: 25px; z-index: 1001; cursor: pointer; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); font-size: 1.2rem; }
         .btn-left { left: 25px; } .btn-right { right: 25px; }
-        .gemini-container { background: rgba(0, 0, 0, 0.4); border-radius: 20px; padding: 15px; border: 1px solid rgba(66, 133, 244, 0.3); flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; }
-        #chat-area { flex-grow: 1; overflow-y: auto; font-size: 0.85rem; margin-bottom: 10px; padding-right: 5px; }
-        .msg { margin-bottom: 12px; padding: 10px 14px; border-radius: 15px; max-width: 90%; line-height: 1.4; }
-        .u-msg { background: rgba(255,255,255,0.05); align-self: flex-end; margin-left: auto; }
-        .g-msg { background: rgba(66, 133, 244, 0.1); border-left: 3px solid #4285F4; }
-        .chat-input-wrapper { display: flex; gap: 8px; background: rgba(255,255,255,0.05); padding: 8px; border-radius: 12px; }
-        #user-input { background: transparent; border: none; color: white; flex-grow: 1; outline: none; }
-        .glass-card { text-align: center; }
-        #clock { font-size: 5rem; font-weight: 700; }
+
+        /* SAAT KARTI */
+        .glass-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px); border-radius: 60px; padding: 70px 50px; text-align: center; width: 500px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        #clock { font-size: 5rem; font-weight: 700; text-shadow: 0 0 20px rgba(255,255,255,0.2); }
+        #date { opacity: 0.4; letter-spacing: 3px; margin-top: 10px; text-transform: uppercase; font-size: 0.9rem; }
+
+        /* LİNKLER */
+        .social-button { text-decoration: none; color: white; display: block; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 15px; text-align: center; margin-bottom: 12px; transition: 0.3s; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.05); }
+        .social-button:hover { border-color: #4285F4; background: rgba(66, 133, 244, 0.1); transform: translateX(-5px); }
     </style>
 </head>
 <body>
 
     <div id="login-screen">
-        <button class="enter-btn" id="entry-trigger">Sisteme Giriş Yap</button>
+        <div class="login-content">
+            <h1>SEOLX</h1>
+            <p style="letter-spacing: 8px; opacity: 0.5; font-size: 0.9rem; margin-bottom: 40px;">WELCOME TO THE SYSTEM</p>
+            <button class="enter-btn" id="entry-trigger">Giriş Yap</button>
+        </div>
     </div>
 
     <div id="main-site">
-        <div class="menu-btn btn-left" onclick="toggleSidebar('sidebar-left')">💎</div>
+        <div class="menu-btn btn-left" onclick="toggleSidebar('sidebar-left')">👤</div>
         <div class="menu-btn btn-right" onclick="toggleSidebar('sidebar-right')">🔗</div>
 
         <div class="dashboard-container">
             <div class="sidebar sidebar-left" id="sidebar-left">
-                <div class="gemini-container">
-                    <div id="chat-area">
-                        <div class="msg g-msg">Sistem hazır. Selam Hamza!</div>
-                    </div>
-                    <div class="chat-input-wrapper">
-                        <input type="text" id="user-input" placeholder="Mesajınızı yazın..." autocomplete="off">
-                    </div>
+                <h2 style="color:#4285F4; letter-spacing:3px; margin-bottom:20px;">PROFILE</h2>
+                <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px;">
+                    <p style="font-size: 1.2rem; font-weight: bold;">Hamza</p>
+                    <p style="font-size: 0.8rem; opacity: 0.5;">Sistem Yöneticisi</p>
                 </div>
             </div>
 
             <div class="sidebar sidebar-right" id="sidebar-right">
-                <h2 style="color:#4285F4; margin-bottom:20px;">NETWORK</h2>
-                <p>Sosyal medya linkleri buraya.</p>
+                <h2 style="color:#4285F4; text-align:right; font-size:1.1rem; letter-spacing:3px; margin-bottom:20px;">NETWORK</h2>
+                <a href="https://www.tiktok.com/@farazi1881" target="_blank" class="social-button">🎵 TikTok</a>
+                <a href="https://x.com/Hmayan20" target="_blank" class="social-button">🐦 Twitter (X)</a>
+                <a href="https://discord.gg/CmM9fdWc" target="_blank" class="social-button">💬 Discord</a>
+                <a href="https://instagram.com/hamza.gsafs" target="_blank" class="social-button">📸 Instagram</a>
             </div>
 
             <div class="glass-card">
                 <div id="clock">00:00:00</div>
+                <div id="date">...</div>
             </div>
         </div>
     </div>
 
     <script>
-        // En son verdiğin API ANAHTARI
-        const API_KEY = "AIzaSyDNW3mAxydrFD2qGe1Or6SCkZSfCxd6szI"; 
-
+        // Giriş Tetikleyici
         document.getElementById('entry-trigger').onclick = function() {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('main-site').style.display = 'block';
-            setTimeout(() => { document.getElementById('main-site').style.opacity = '1'; }, 50);
+            document.getElementById('login-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-site').style.display = 'block';
+                setTimeout(() => { document.getElementById('main-site').style.opacity = '1'; }, 50);
+            }, 600);
         };
 
-        document.getElementById('user-input').onkeypress = async function(e) {
-            if (e.key === 'Enter') {
-                const input = this;
-                const chatArea = document.getElementById('chat-area');
-                const prompt = input.value.trim();
-                if (!prompt) return;
-
-                chatArea.innerHTML += `<div class="msg u-msg">${prompt}</div>`;
-                input.value = "";
-                
-                const tempMsg = document.createElement("div");
-                tempMsg.className = "msg g-msg";
-                tempMsg.innerText = "Düşünüyorum...";
-                chatArea.appendChild(tempMsg);
-                chatArea.scrollTop = chatArea.scrollHeight;
-
-                try {
-                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok && data.candidates) {
-                        tempMsg.innerText = data.candidates[0].content.parts[0].text;
-                    } else {
-                        // Hata mesajını detaylı gösteriyoruz
-                        tempMsg.style.color = "#ff4444";
-                        tempMsg.innerText = "Hata oluştu: " + (data.error ? data.error.message : "Kod: " + response.status);
-                    }
-                } catch (err) {
-                    tempMsg.innerText = "Bağlantı Hatası: Tarayıcı isteği engelledi veya internet yok.";
-                }
-                chatArea.scrollTop = chatArea.scrollHeight;
-            }
-        };
-
-        function toggleSidebar(id) { document.getElementById(id).classList.toggle('active'); }
-        function updateClock() {
-            document.getElementById("clock").innerText = new Date().toLocaleTimeString('tr-TR');
+        // Menü Aç/Kapat
+        function toggleSidebar(id) {
+            document.getElementById(id).classList.toggle('active');
         }
+
+        // Saat ve Tarih Güncelleme
+        function updateClock() {
+            const now = new Date();
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+            const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+            
+            document.getElementById("clock").innerText = now.toLocaleTimeString('tr-TR', timeOptions);
+            document.getElementById("date").innerText = now.toLocaleDateString('tr-TR', dateOptions);
+        }
+
         setInterval(updateClock, 1000);
         updateClock();
     </script>
