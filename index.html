@@ -3,161 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seolx | Elite Dashboard</title>
+    <title>Seolx | MY WEB</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: #000; color: white; overflow: hidden; height: 100vh; }
 
-        /* ARKA PLAN VİDEOSU */
-        #bg-video {
-            position: fixed; top: 50%; left: 50%;
-            min-width: 100%; min-height: 100%;
-            width: auto; height: auto;
-            transform: translate(-50%, -50%);
-            z-index: -2; object-fit: cover;
-        }
-
-        .overlay {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.3); z-index: -1;
-        }
-
         /* GİRİŞ EKRANI */
         #login-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 9999; display: flex; justify-content: center; align-items: center;
-            background: #000;
+            z-index: 10000; display: flex; justify-content: center; align-items: center;
+            background: #000; transition: opacity 0.6s ease-out;
         }
-        .login-content h1 { font-family: 'Bebas Neue', sans-serif; font-size: 8rem; letter-spacing: 15px; text-shadow: 0 0 40px rgba(255, 255, 255, 0.4); }
-        .enter-btn { background: #fff; color: #000; border: none; padding: 20px 60px; font-size: 1.1rem; font-weight: 700; border-radius: 50px; cursor: pointer; transition: 0.4s; text-transform: uppercase; }
-        .enter-btn:hover { background: #00ff88; transform: scale(1.1); box-shadow: 0 0 40px rgba(0, 255, 136, 0.6); }
-
-        /* ANA SİTE */
-        #main-site { display: none; opacity: 0; transition: 1.5s ease-in-out; }
-
-        /* SAAT (SAĞ ÜST - KÜÇÜK) */
-        .glass-card {
-            position: fixed; top: 25px; right: 85px;
-            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
-            border-radius: 20px; padding: 10px 20px; text-align: right;
-            border: 1px solid rgba(255, 255, 255, 0.1); z-index: 1000;
+        .login-content { text-align: center; }
+        .login-content h1 { font-family: 'Bebas Neue', sans-serif; font-size: 8rem; color: #fff; letter-spacing: 15px; text-shadow: 0 0 40px rgba(66, 133, 244, 0.4); margin-bottom: 20px; }
+        .enter-btn { 
+            background: #fff; color: #000; border: none; padding: 20px 60px; 
+            font-size: 1.1rem; font-weight: 700; border-radius: 50px; cursor: pointer; 
+            transition: 0.3s; text-transform: uppercase; letter-spacing: 2px;
         }
-        #clock { font-size: 1.8rem; font-weight: 700; color: #fff; line-height: 1; }
-        #date { font-size: 0.7rem; opacity: 0.6; letter-spacing: 1px; margin-top: 3px; }
+        .enter-btn:hover { background: #4285F4; color: white; transform: scale(1.05); box-shadow: 0 0 40px rgba(66, 133, 244, 0.8); }
+
+        /* ANA EKRAN */
+        #main-site { display: none; opacity: 0; transition: 1s ease-in; }
+        .dashboard-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: radial-gradient(circle at center, #1a1a2e 0%, #000 100%); }
 
         /* YAN MENÜLER */
         .sidebar {
-            position: fixed; top: 0; width: 320px; height: 100%;
-            background: rgba(10, 10, 30, 0.9); backdrop-filter: blur(20px);
-            z-index: 1001; transition: 0.5s; padding: 40px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed; top: 0; width: 380px; height: 100%;
+            background: rgba(10, 10, 30, 0.95); backdrop-filter: blur(25px);
+            z-index: 1000; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); padding: 30px 20px;
+            border-right: 1px solid rgba(66, 133, 244, 0.2); display: flex; flex-direction: column;
         }
-        .sidebar-left { left: -330px; } .sidebar-left.active { left: 0; }
-        .sidebar-right { right: -330px; } .sidebar-right.active { right: 0; }
+        .sidebar-left { left: -390px; } .sidebar-left.active { left: 0; border-right: 1px solid #4285F4; }
+        .sidebar-right { right: -390px; } .sidebar-right.active { right: 0; border-left: 1px solid #4285F4; }
         
-        .menu-btn { position: fixed; top: 25px; z-index: 1002; cursor: pointer; background: rgba(255,255,255,0.1); padding: 12px; border-radius: 12px; transition: 0.3s; }
-        .menu-btn:hover { background: rgba(0, 255, 136, 0.2); }
+        .menu-btn { position: fixed; top: 25px; z-index: 1001; cursor: pointer; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); font-size: 1.2rem; }
         .btn-left { left: 25px; } .btn-right { right: 25px; }
 
-        /* SOSYAL BUTONLAR */
-        .social-button { 
-            text-decoration: none; color: white; display: block; padding: 15px; 
-            background: rgba(255,255,255,0.05); border-radius: 15px; 
-            text-align: center; margin-bottom: 12px; transition: 0.3s; 
-            font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.05);
-        }
-        .social-button:hover { 
-            background: rgba(0, 255, 136, 0.15); border-color: #00ff88; 
-            transform: translateX(-5px); box-shadow: -5px 0 15px rgba(0, 255, 136, 0.2); 
-        }
+        /* YOUTUBE PLAYER */
+        .video-container { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 15px; overflow: hidden; margin-top: 10px; border: 1px solid rgba(255,255,255,0.1); }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* SAAT KARTI */
+        .glass-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px); border-radius: 60px; padding: 70px 50px; text-align: center; width: 500px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        #clock { font-size: 5rem; font-weight: 700; text-shadow: 0 0 20px rgba(255,255,255,0.2); }
+        #date { opacity: 0.4; letter-spacing: 3px; margin-top: 10px; text-transform: uppercase; font-size: 0.9rem; }
+
+        /* LİNKLER */
+        .social-button { text-decoration: none; color: white; display: block; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 15px; text-align: center; margin-bottom: 12px; transition: 0.3s; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.05); }
+        .social-button:hover { border-color: #4285F4; background: rgba(66, 133, 244, 0.1); transform: translateX(-5px); }
     </style>
 </head>
 <body>
 
-    <video loop playsinline id="bg-video" preload="auto">
-        <source src="https://raw.githubusercontent.com/Hamza123-art/seolx/main/arka.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"></div>
-
     <div id="login-screen">
         <div class="login-content">
             <h1>SEOLX</h1>
-            <button class="enter-btn" onclick="enterSite()">Giriş Yap</button>
+            <p style="letter-spacing: 8px; opacity: 0.5; font-size: 0.9rem; margin-bottom: 40px;">MEDIA CORE READY</p>
+            <button class="enter-btn" id="entry-trigger">Giriş Yap</button>
         </div>
     </div>
 
     <div id="main-site">
-        <div class="menu-btn btn-left" onclick="toggleSidebar('sidebar-left')">⚙️</div>
+        <div class="menu-btn btn-left" onclick="toggleSidebar('sidebar-left')">📺</div>
         <div class="menu-btn btn-right" onclick="toggleSidebar('sidebar-right')">🔗</div>
 
-        <div class="glass-card">
-            <div id="clock">00:00:00</div>
-            <div id="date">...</div>
-        </div>
-
-        <div class="sidebar sidebar-left" id="sidebar-left">
-            <h2 style="color:#00ff88; font-size:1.1rem; margin-bottom:20px; letter-spacing: 2px;">MEDYA PANELİ</h2>
-            <div style="background:rgba(255,255,255,0.03); padding:15px; border-radius:20px; border: 1px solid rgba(255,255,255,0.05);">
-                <iframe id="music-frame" style="border-radius:15px;" 
-                    src="https://www.youtube.com/embed/videoseries?list=PLtDUHIXNDtvvorvm_fRg1GRng7B7O2Njs" 
-                    width="100%" height="180" frameborder="0"></iframe>
-                <p style="font-size: 0.6rem; opacity: 0.5; margin-top: 10px; text-align: center;">Müzik açıldığında video sesi otomatik kapanır.</p>
+        <div class="dashboard-container">
+            <div class="sidebar sidebar-left" id="sidebar-left">
+                <h2 style="color:#4285F4; letter-spacing:3px; margin-bottom:10px;">PLAYLIST</h2>
+                <p style="font-size: 0.7rem; opacity: 0.5; margin-bottom: 15px;">YouTube Müzik Listeniz</p>
+                
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/videoseries?list=PL4fGSI1pDJn6jWnvvtoQsxspoOX6e9mYv" allowfullscreen></iframe>
+                </div>
+                
+                <div style="margin-top: 20px; font-size: 0.8rem; line-height: 1.6; opacity: 0.7;">
+                    <p>• Listeniz otomatik yüklendi.</p>
+                    <p>• Videoyu sidebar üzerinden kontrol edebilirsiniz.</p>
+                </div>
             </div>
-        </div>
 
-        <div class="sidebar sidebar-right" id="sidebar-right">
-            <h2 style="color:#00ff88; text-align:right; font-size:1.1rem; margin-bottom:25px; letter-spacing: 2px;">SOSYAL AĞLAR</h2>
-            <a href="https://www.tiktok.com/@farazi1881" target="_blank" class="social-button">🎵 TikTok</a>
-            <a href="https://instagram.com/hamza.gsafs" target="_blank" class="social-button">📸 Instagram</a>
-            <a href="https://x.com/Hmayan20" target="_blank" class="social-button">🐦 Twitter (X)</a>
-            <a href="https://discord.gg/CmM9fdWc" target="_blank" class="social-button">💬 Discord</a>
-            
-            <div style="margin-top: auto; text-align: right; opacity: 0.3; font-size: 0.7rem;">
-                Hamza Admin Panel v2.0
+            <div class="sidebar sidebar-right" id="sidebar-right">
+                <h2 style="color:#4285F4; text-align:right; font-size:1.1rem; letter-spacing:3px; margin-bottom:20px;">NETWORK</h2>
+                <a href="https://www.tiktok.com/@farazi1881" target="_blank" class="social-button">🎵 TikTok</a>
+                <a href="https://x.com/Hmayan20" target="_blank" class="social-button">🐦 Twitter (X)</a>
+                <a href="https://discord.gg/CmM9fdWc" target="_blank" class="social-button">💬 Discord</a>
+                <a href="https://instagram.com/hamza.gsafs" target="_blank" class="social-button">📸 Instagram</a>
+            </div>
+
+            <div class="glass-card">
+                <div id="clock">00:00:00</div>
+                <div id="date">...</div>
             </div>
         </div>
     </div>
 
     <script>
-        const video = document.getElementById('bg-video');
-
-        function enterSite() {
-            video.muted = false;
-            video.volume = 0.4;
-            video.play();
-            
+        document.getElementById('entry-trigger').onclick = function() {
             document.getElementById('login-screen').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('main-site').style.display = 'block';
                 setTimeout(() => { document.getElementById('main-site').style.opacity = '1'; }, 50);
-            }, 1000);
+            }, 600);
+        };
+
+        function toggleSidebar(id) {
+            document.getElementById(id).classList.toggle('active');
         }
-
-        // Donma Engelleyici ve Otomatik Başlatıcı
-        setInterval(() => {
-            if (video.paused && document.getElementById('main-site').style.display === 'block') {
-                video.play().catch(e => console.log("Video kurtarılamadı"));
-            }
-        }, 2000);
-
-        // Müzik Odaklı Ses Yönetimi
-        window.addEventListener('blur', function() {
-            if (document.activeElement.id === 'music-frame') {
-                video.volume = 0;
-            }
-        });
-
-        function toggleSidebar(id) { document.getElementById(id).classList.toggle('active'); }
 
         function updateClock() {
             const now = new Date();
             document.getElementById("clock").innerText = now.toLocaleTimeString('tr-TR');
-            document.getElementById("date").innerText = now.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+            document.getElementById("date").innerText = now.toLocaleDateString('tr-TR', { day:'numeric', month:'long', year:'numeric' });
         }
-        setInterval(updateClock, 1000); updateClock();
+
+        setInterval(updateClock, 1000);
+        updateClock();
     </script>
 </body>
 </html>
