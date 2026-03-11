@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seolx | WEB</title>
+    <title>Seolx | Premium Gateway</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
@@ -12,22 +12,24 @@
         /* ARKA PLAN VİDEOSU */
         #bg-video {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
             z-index: -2;
+            object-fit: cover;
         }
 
-        /* VİDEO ÜZERİ KARARTMA (Yazıların okunması için) */
         .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5); 
+            background: rgba(0, 0, 0, 0.4); 
             z-index: -1;
         }
 
@@ -47,10 +49,9 @@
 
         .dashboard-container {
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
-            padding-top: 8vh; /* Saati orta-yukarı çekmek için */
+            padding-top: 8vh; 
         }
 
-        /* YAN MENÜLER */
         .sidebar {
             position: fixed; top: 0; width: 300px; height: 100%;
             background: rgba(10, 10, 30, 0.85); backdrop-filter: blur(20px);
@@ -60,29 +61,26 @@
         .sidebar-left { left: -310px; } .sidebar-left.active { left: 0; }
         .sidebar-right { right: -310px; } .sidebar-right.active { right: 0; }
         
-        .menu-btn { position: fixed; top: 25px; z-index: 1001; cursor: pointer; background: rgba(255,255,255,0.1); padding: 12px; border-radius: 12px; transition: 0.3s; }
-        .menu-btn:hover { background: rgba(0, 255, 136, 0.3); }
+        .menu-btn { position: fixed; top: 25px; z-index: 1001; cursor: pointer; background: rgba(255,255,255,0.1); padding: 12px; border-radius: 12px; }
         .btn-left { left: 25px; } .btn-right { right: 25px; }
 
         .social-button { text-decoration: none; color: white; display: block; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 15px; text-align: center; transition: 0.3s; font-size: 0.85rem; }
         .social-button:hover { background: rgba(0, 255, 136, 0.2); transform: translateX(-5px); }
 
-        /* SAAT KARTI (ORTA YUKARI) */
         .glass-card {
             background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px);
             border-radius: 50px; padding: 40px 60px; text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: 0 10px 50px rgba(0,0,0,0.5);
         }
-        #clock { font-size: 5rem; font-weight: 700; color: #fff; text-shadow: 0 0 30px rgba(255,255,255,0.2); }
-        #date { font-size: 1.1rem; opacity: 0.5; margin-top: 10px; letter-spacing: 4px; text-transform: uppercase; }
+        #clock { font-size: 5rem; font-weight: 700; color: #fff; }
+        #date { font-size: 1.1rem; opacity: 0.5; margin-top: 10px; letter-spacing: 4px; }
     </style>
 </head>
 <body>
 
-    <video autoplay muted loop playsinline id="bg-video">
+    <video autoplay muted loop playsinline id="bg-video" preload="auto">
         <source src="https://raw.githubusercontent.com/Hamza123-art/seolx/main/arka.mp4" type="video/mp4">
-        Tarayıcınız video oynatmayı desteklemiyor.
     </video>
     <div class="overlay"></div>
 
@@ -105,7 +103,6 @@
                     <span style="font-size:0.7rem; color:#00ff88; font-weight:700;">🎧 MÜZİK ÇALAR</span>
                     <iframe style="border-radius:15px; margin-top:15px;" src="https://www.youtube.com/embed/videoseries?list=PLtDUHIXNDtvvorvm_fRg1GRng7B7O2Njs" width="100%" height="160" frameborder="0" allow="autoplay"></iframe>
                 </div>
-                <div style="margin-top:20px; font-size:0.85rem; color: #fff; opacity: 0.6;">📍 Bursa: 18°C ☁️</div>
             </div>
 
             <div class="sidebar sidebar-right" id="sidebar-right">
@@ -124,9 +121,20 @@
     </div>
 
     <script>
+        // Sayfa yüklendiğinde videoyu zorla oynat
+        window.onload = function() {
+            var video = document.getElementById('bg-video');
+            video.play().catch(function(error) {
+                console.log("Otomatik oynatma engellendi, etkileşim bekleniyor.");
+            });
+        };
+
         function enterSite() {
             const ls = document.getElementById('login-screen');
             const ms = document.getElementById('main-site');
+            // Giriş butonuna basıldığında videoyu tekrar oynatmayı dene (tarayıcı izni için)
+            document.getElementById('bg-video').play();
+            
             ls.style.transition = 'opacity 1s';
             ls.style.opacity = '0';
             setTimeout(() => {
