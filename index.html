@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seolx | Dashboard</title>
+    <title>Seolx | Media Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
@@ -30,16 +30,20 @@
 
         /* YAN MENÜLER */
         .sidebar {
-            position: fixed; top: 0; width: 340px; height: 100%;
+            position: fixed; top: 0; width: 380px; height: 100%;
             background: rgba(10, 10, 30, 0.95); backdrop-filter: blur(25px);
             z-index: 1000; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); padding: 30px 20px;
             border-right: 1px solid rgba(66, 133, 244, 0.2); display: flex; flex-direction: column;
         }
-        .sidebar-left { left: -350px; } .sidebar-left.active { left: 0; border-right: 1px solid #4285F4; }
-        .sidebar-right { right: -350px; } .sidebar-right.active { right: 0; border-left: 1px solid #4285F4; }
+        .sidebar-left { left: -390px; } .sidebar-left.active { left: 0; border-right: 1px solid #4285F4; }
+        .sidebar-right { right: -390px; } .sidebar-right.active { right: 0; border-left: 1px solid #4285F4; }
         
         .menu-btn { position: fixed; top: 25px; z-index: 1001; cursor: pointer; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); font-size: 1.2rem; }
         .btn-left { left: 25px; } .btn-right { right: 25px; }
+
+        /* YOUTUBE PLAYER */
+        .video-container { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 15px; overflow: hidden; margin-top: 10px; border: 1px solid rgba(255,255,255,0.1); }
+        iframe { width: 100%; height: 100%; border: none; }
 
         /* SAAT KARTI */
         .glass-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px); border-radius: 60px; padding: 70px 50px; text-align: center; width: 500px; border: 1px solid rgba(255, 255, 255, 0.1); }
@@ -56,21 +60,27 @@
     <div id="login-screen">
         <div class="login-content">
             <h1>SEOLX</h1>
-            <p style="letter-spacing: 8px; opacity: 0.5; font-size: 0.9rem; margin-bottom: 40px;">WELCOME TO THE SYSTEM</p>
+            <p style="letter-spacing: 8px; opacity: 0.5; font-size: 0.9rem; margin-bottom: 40px;">MEDIA CORE READY</p>
             <button class="enter-btn" id="entry-trigger">Giriş Yap</button>
         </div>
     </div>
 
     <div id="main-site">
-        <div class="menu-btn btn-left" onclick="toggleSidebar('sidebar-left')">👤</div>
+        <div class="menu-btn btn-left" onclick="toggleSidebar('sidebar-left')">📺</div>
         <div class="menu-btn btn-right" onclick="toggleSidebar('sidebar-right')">🔗</div>
 
         <div class="dashboard-container">
             <div class="sidebar sidebar-left" id="sidebar-left">
-                <h2 style="color:#4285F4; letter-spacing:3px; margin-bottom:20px;">PROFILE</h2>
-                <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px;">
-                    <p style="font-size: 1.2rem; font-weight: bold;">Hamza</p>
-                    <p style="font-size: 0.8rem; opacity: 0.5;">Sistem Yöneticisi</p>
+                <h2 style="color:#4285F4; letter-spacing:3px; margin-bottom:10px;">PLAYLIST</h2>
+                <p style="font-size: 0.7rem; opacity: 0.5; margin-bottom: 15px;">YouTube Müzik Listeniz</p>
+                
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/videoseries?list=PL4fGSI1pDJn6jWnvvtoQsxspoOX6e9mYv" allowfullscreen></iframe>
+                </div>
+                
+                <div style="margin-top: 20px; font-size: 0.8rem; line-height: 1.6; opacity: 0.7;">
+                    <p>• Listeniz otomatik yüklendi.</p>
+                    <p>• Videoyu sidebar üzerinden kontrol edebilirsiniz.</p>
                 </div>
             </div>
 
@@ -90,7 +100,6 @@
     </div>
 
     <script>
-        // Giriş Tetikleyici
         document.getElementById('entry-trigger').onclick = function() {
             document.getElementById('login-screen').style.opacity = '0';
             setTimeout(() => {
@@ -100,19 +109,14 @@
             }, 600);
         };
 
-        // Menü Aç/Kapat
         function toggleSidebar(id) {
             document.getElementById(id).classList.toggle('active');
         }
 
-        // Saat ve Tarih Güncelleme
         function updateClock() {
             const now = new Date();
-            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-            const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
-            
-            document.getElementById("clock").innerText = now.toLocaleTimeString('tr-TR', timeOptions);
-            document.getElementById("date").innerText = now.toLocaleDateString('tr-TR', dateOptions);
+            document.getElementById("clock").innerText = now.toLocaleTimeString('tr-TR');
+            document.getElementById("date").innerText = now.toLocaleDateString('tr-TR', { day:'numeric', month:'long', year:'numeric' });
         }
 
         setInterval(updateClock, 1000);
