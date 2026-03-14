@@ -1,329 +1,115 @@
 <!DOCTYPE html>
-
 <html lang="tr">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Seolx | MY WEB </title>
-
+    <title>Seolx | Countdown</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
-
     <style>
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-
-        body { background: #000; color: white; overflow: hidden; height: 100vh; }
-
-
-
-        /* GİRİŞ EKRANI */
-
-        #login-screen {
-
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-
-            z-index: 9999; display: flex; justify-content: center; align-items: center;
-
-            background: #000;
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: #000; 
+            color: white; 
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            overflow: hidden; 
+            font-family: 'Poppins', sans-serif; 
         }
 
+        .container { text-align: center; }
 
-
-        .login-content {
-
-            position: relative; z-index: 1000; text-align: center;
-
-            padding: 60px; border-radius: 30px;
-
-        }
-
-
-
-        .login-content h1 {
-
+        h1 {
             font-family: 'Bebas Neue', sans-serif;
-
             font-size: 8rem;
-
-            color: #ffffff;
-
             letter-spacing: 15px;
-
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
             margin-bottom: 5px;
-
-            text-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
-
-            font-weight: 900;
-
         }
 
-
-
-        .login-content p {
-
+        p {
             font-size: 1.2rem;
-
             letter-spacing: 6px;
-
-            opacity: 0.6;
-
-            margin-bottom: 50px;
-
+            opacity: 0.5;
             text-transform: uppercase;
-
+            margin-bottom: 40px;
         }
 
-
-
-        .enter-btn {
-
-            background: #ffffff;
-
-            color: #000;
-
-            border: none;
-
-            padding: 20px 60px;
-
-            font-size: 1.1rem;
-
+        #countdown {
+            font-size: 4rem;
             font-weight: 700;
-
-            border-radius: 50px;
-
-            cursor: pointer;
-
-            transition: 0.4s;
-
-            text-transform: uppercase;
-
-            letter-spacing: 3px;
-
+            color: #00ff88;
+            text-shadow: 0 0 25px rgba(0, 255, 136, 0.4);
+            font-variant-numeric: tabular-nums;
         }
 
-
-
-        .enter-btn:hover {
-
-            background: #00ff88;
-
-            transform: scale(1.1);
-
-            box-shadow: 0 0 40px rgba(0, 255, 136, 0.6);
-
+        /* Başlatma Ekranı (Müzik İçin) */
+        #overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 999;
+            display: flex; justify-content: center; align-items: center;
         }
-
-
-
-        /* ANA SİTE (DASHBOARD) */
-
-        #main-site { display: none; opacity: 0; transition: 1.5s ease-in-out; }
-
-
-
-        .dashboard-container {
-
-            display: flex; justify-content: center; align-items: center; min-height: 100vh;
-
-            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #000000);
-
-            background-size: 400% 400%; animation: gradientBG 15s ease infinite;
-
+        .start-btn {
+            background: transparent; color: #fff; border: 2px solid #fff; 
+            padding: 15px 40px; font-size: 1rem; letter-spacing: 2px;
+            border-radius: 5px; cursor: pointer; transition: 0.3s;
         }
-
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-
-
-        .sidebar {
-
-            position: fixed; top: 0; width: 300px; height: 100%;
-
-            background: rgba(10, 10, 30, 0.95); backdrop-filter: blur(20px);
-
-            z-index: 1000; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); padding: 40px 20px;
-
-            border: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-direction: column; gap: 10px;
-
-        }
-
-        .sidebar-left { left: -310px; } .sidebar-left.active { left: 0; }
-
-        .sidebar-right { right: -310px; } .sidebar-right.active { right: 0; }
-
-        
-
-        .menu-btn { position: fixed; top: 25px; z-index: 1001; cursor: pointer; background: rgba(255,255,255,0.1); padding: 12px; border-radius: 12px; }
-
-        .btn-left { left: 25px; } .btn-right { right: 25px; }
-
-
-
-        .social-button {
-
-            text-decoration: none; color: white; display: block; padding: 15px; 
-
-            background: rgba(255,255,255,0.05); border-radius: 15px; 
-
-            text-align: center; transition: 0.3s; font-size: 0.85rem;
-
-        }
-
-        .social-button:hover { background: rgba(0, 255, 136, 0.2); transform: translateX(-5px); }
-
-
-
-        .glass-card {
-
-            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px);
-
-            border-radius: 50px; padding: 60px 40px; text-align: center; width: 480px;
-
-            border: 1px solid rgba(255, 255, 255, 0.15);
-
-        }
-
-        #clock { font-size: 4.5rem; font-weight: 700; color: #fff; }
-
-        #date { font-size: 1rem; opacity: 0.4; margin-top: 10px; letter-spacing: 2px; }
-
+        .start-btn:hover { background: #fff; color: #000; }
     </style>
-
 </head>
-
 <body>
 
-
-
-    <div id="login-screen">
-
-        <div class="login-content">
-
-            <h1>SEOLX</h1>
-
-            <p>Hoş Geldiniz</p>
-
-            <button class="enter-btn" onclick="enterSite()">Sisteme Giriş Yap</button>
-
-        </div>
-
+    <div id="overlay">
+        <button class="start-btn" onclick="startSystem()">SİSTEMİ BAŞLAT</button>
     </div>
 
+    <audio id="bg-music" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
 
-
-    <div id="main-site">
-
-        <div class="menu-btn btn-left" onclick="toggleSidebar('sidebar-left')">⚙️</div>
-
-        <div class="menu-btn btn-right" onclick="toggleSidebar('sidebar-right')">🔗</div>
-
-
-
-        <div class="dashboard-container">
-
-            <div class="sidebar sidebar-left" id="sidebar-left">
-
-                <h2 style="color:#00ff88; font-size:1.2rem; letter-spacing:2px; margin-bottom:20px;">KONTROL</h2>
-
-                <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:20px;">
-
-                    <span style="font-size:0.7rem; color:#00ff88; font-weight:700;">🎧 MÜZİK ÇALAR</span>
-
-                    <iframe style="border-radius:15px; margin-top:15px;" src="https://www.youtube.com/embed/videoseries?list=PLtDUHIXNDtvvorvm_fRg1GRng7B7O2Njs" width="100%" height="160" frameborder="0" allow="autoplay"></iframe>
-
-                </div>
-
-                <div style="margin-top:20px; font-size:0.85rem; color: #fff; opacity: 0.6;">📍 Bursa: 18°C ☁️</div>
-
-            </div>
-
-
-
-            <div class="sidebar sidebar-right" id="sidebar-right">
-
-                <h2 style="color:#00ff88; text-align:right; font-size:1.2rem; letter-spacing:2px; margin-bottom:20px;">SOSYAL</h2>
-
-                <a href="https://www.tiktok.com/@farazi1881" target="_blank" class="social-button">🎵 TikTok</a>
-
-                <a href="https://x.com/Hmayan20" target="_blank" class="social-button">🐦 X (Twitter)</a>
-
-                <a href="https://discord.gg/CmM9fdWc" target="_blank" class="social-button">💬 Discord</a>
-
-                <a href="https://instagram.com/hamza.gsafs" target="_blank" class="social-button">📸 Instagram</a>
-
-            </div>
-
-
-
-            <div class="glass-card">
-
-                <div id="greeting" style="letter-spacing:6px; opacity:0.5; font-size:0.8rem; margin-bottom:10px;">Hoş Geldin User...</div>
-
-                <div id="clock">00:00:00</div>
-
-                <div id="date">...</div>
-
-            </div>
-
-        </div>
-
+    <div class="container">
+        <h1>SEOLX</h1>
+        <p>Hoş Geldiniz</p>
+        <div id="countdown">Yükleniyor...</div>
     </div>
-
-
 
     <script>
-
-        function enterSite() {
-
-            const ls = document.getElementById('login-screen');
-
-            const ms = document.getElementById('main-site');
-
-            ls.style.transition = 'opacity 1s';
-
-            ls.style.opacity = '0';
-
-            setTimeout(() => {
-
-                ls.style.display = 'none';
-
-                ms.style.display = 'block';
-
-                setTimeout(() => { ms.style.opacity = '1'; }, 50);
-
-            }, 1000);
-
+        function startSystem() {
+            document.getElementById('bg-music').play();
+            document.getElementById('overlay').style.display = 'none';
         }
 
+        // Hedef Zaman: 18 Mart 2026, 20:00:00
+        const targetDate = new Date("March 18, 2026 20:00:00").getTime();
 
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
 
-        function toggleSidebar(id) { document.getElementById(id).classList.toggle('active'); }
+            if (distance < 0) {
+                document.getElementById("countdown").innerHTML = "SÜRE DOLDU";
+                return;
+            }
 
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
+            // Eğer 0 günden fazlaysa gün bilgisini de gösterir, yoksa sadece saat:dakika:saniye
+            let display = "";
+            if (days > 0) display += days + "g ";
+            
+            display += (hours < 10 ? "0" + hours : hours) + ":" + 
+                       (minutes < 10 ? "0" + minutes : minutes) + ":" + 
+                       (seconds < 10 ? "0" + seconds : seconds);
 
-        function updateClock() {
-
-            const now = new Date();
-
-            let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
-
-            h = h < 10 ? "0" + h : h; m = m < 10 ? "0" + m : m; s = s < 10 ? "0" + s : s;
-
-            document.getElementById("clock").innerText = h + ":" + m + ":" + s;
-
-            document.getElementById("date").innerText = now.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
-
+            document.getElementById("countdown").innerHTML = display;
         }
 
-        setInterval(updateClock, 1000); updateClock();
-
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
     </script>
-
 </body>
-
 </html>
