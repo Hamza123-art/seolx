@@ -2,22 +2,26 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEOLX | Giriş</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TEST</title>
     <style>
-        /* Temel Sıfırlama */
-        body, html {
+        /* Ekranın her yerini zorla kapla */
+        * {
             margin: 0;
             padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: black;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
         }
 
-        /* Ana Konteynır */
-        #intro-overlay {
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Kaydırma çubuğunu öldür */
+            background-color: #000;
+            font-family: sans-serif;
+        }
+
+        /* Her şeyi ekrana göre tam ortalayan ana kap */
+        #main-container {
             position: fixed;
             top: 0;
             left: 0;
@@ -26,30 +30,31 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
-            transition: background-color 3s ease-in-out; /* Kararma hızı */
+            z-index: 100;
+            transition: background-color 3s ease;
         }
 
-        /* 1. Aşama: SEOLX Yazısı ve Buton */
-        #start-content {
+        /* 1. SEOLX ve Buton Kısmı */
+        #start-ui {
+            z-index: 10;
             text-align: center;
-            color: white;
+            width: 90%; /* Mobilde kenarlara yapışmasın */
         }
 
-        #start-content h1 {
-            font-size: 4rem;
-            letter-spacing: 10px;
+        #start-ui h1 {
+            color: white;
+            font-size: clamp(3rem, 10vw, 6rem); /* Ekrana göre büyüyüp küçülen yazı */
+            letter-spacing: 5px;
             margin-bottom: 20px;
         }
 
         #enter-btn {
-            padding: 12px 30px;
-            background: transparent;
+            background: none;
             color: white;
             border: 2px solid white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
             cursor: pointer;
-            font-size: 1.1rem;
-            text-transform: uppercase;
             transition: 0.3s;
         }
 
@@ -58,32 +63,36 @@
             color: black;
         }
 
-        /* 2. Aşama: Video */
+        /* 2. Video: Ekranı yamultmadan kaplaması için */
         #intro-video {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%); /* Tam merkezleme */
+            object-fit: cover; /* Videoyu kırpmadan/yamultmadan sığdırır */
             display: none;
         }
 
-        /* 3. Aşama: Final Yazısı */
-        #final-message {
+        /* 3. Final Yazısı */
+        #final-text {
             color: white;
-            font-size: 2.5rem;
-            opacity: 0;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
             text-align: center;
+            opacity: 0;
+            z-index: 20;
             transition: opacity 2s ease;
-            z-index: 10;
+            padding: 0 20px;
         }
     </style>
 </head>
 <body>
 
-    <div id="intro-overlay">
-        <div id="start-content">
+    <div id="main-container">
+        <div id="start-ui">
             <h1>SEOLX</h1>
             <button id="enter-btn">İçeri Gir</button>
         </div>
@@ -92,46 +101,36 @@
             <source src="second.mp4" type="video/mp4">
         </video>
 
-        <div id="final-message">Burda Olman Tesadüf değil</div>
+        <div id="final-text">Burda Olman Tesadüf değil</div>
     </div>
 
     <audio id="bg-music" src="music.mp3"></audio>
 
     <script>
-        const overlay = document.getElementById('intro-overlay');
-        const enterBtn = document.getElementById('enter-btn');
-        const startContent = document.getElementById('start-content');
+        const container = document.getElementById('main-container');
+        const btn = document.getElementById('enter-btn');
         const video = document.getElementById('intro-video');
-        const finalMessage = document.getElementById('final-message');
+        const startUi = document.getElementById('start-ui');
+        const finalText = document.getElementById('final-text');
         const music = document.getElementById('bg-music');
 
-        enterBtn.addEventListener('click', () => {
-            // 1. Yazıları gizle ve videoyu oynat
-            startContent.style.display = 'none';
+        btn.onclick = () => {
+            startUi.style.display = 'none';
             video.style.display = 'block';
-            video.play().catch(error => console.log("Video oynatılamadı:", error));
-        });
+            video.play();
+        };
 
-        // Video bitince tetiklenecek olay
         video.onended = () => {
             video.style.display = 'none';
-            
-            // Ekranı bembeyaz yap
-            overlay.style.backgroundColor = 'white';
-            
-            // Müziği başlat
-            music.play().catch(error => console.log("Müzik oynatılamadı:", error));
+            container.style.backgroundColor = 'white';
+            music.play();
 
-            // Kısa bir süre beyaz kalsın, sonra kararmaya başlasın
             setTimeout(() => {
-                overlay.style.backgroundColor = 'black';
-                
-                // Kararma bitince (3 saniye sonra) mesajı göster
+                container.style.backgroundColor = 'black';
                 setTimeout(() => {
-                    finalMessage.style.opacity = '1';
-                }, 3000);
-
-            }, 800); // 0.8 saniye beyaz kalır
+                    finalText.style.opacity = '1';
+                }, 2500);
+            }, 600);
         };
     </script>
 </body>
