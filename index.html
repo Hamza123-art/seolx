@@ -2,102 +2,100 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SEOLX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>TEST</title>
     <style>
-        /* Ekranın her yerini zorla kapla */
+        /* Tarayıcı saçmalıklarını sıfırla */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /* Ekranın gerçek yüksekliğini her cihazda sabitle */
         body, html {
             width: 100%;
             height: 100%;
-            overflow: hidden; /* Kaydırma çubuğunu öldür */
+            overflow: hidden;
             background-color: #000;
-            font-family: sans-serif;
+            /* Mobil tarayıcı yükseklik hatasını önlemek için */
+            height: -webkit-fill-available; 
         }
 
-        /* Her şeyi ekrana göre tam ortalayan ana kap */
-        #main-container {
+        /* GRID: Dünyanın en sağlam ortalama yöntemidir */
+        #master-wrapper {
+            display: grid;
+            place-items: center; /* Hem yatay hem dikey TAM ORTA */
+            width: 100vw;
+            height: 100vh;
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             z-index: 100;
             transition: background-color 3s ease;
         }
 
-        /* 1. SEOLX ve Buton Kısmı */
-        #start-ui {
-            z-index: 10;
+        /* Giriş Grubu */
+        #start-box {
+            z-index: 50;
             text-align: center;
-            width: 90%; /* Mobilde kenarlara yapışmasın */
         }
 
-        #start-ui h1 {
+        #start-box h1 {
             color: white;
-            font-size: clamp(3rem, 10vw, 6rem); /* Ekrana göre büyüyüp küçülen yazı */
-            letter-spacing: 5px;
-            margin-bottom: 20px;
+            font-size: clamp(2.5rem, 12vw, 5rem);
+            letter-spacing: 0.2em;
+            margin-bottom: 2rem;
+            font-family: sans-serif;
+            font-weight: 900;
         }
 
         #enter-btn {
-            background: none;
+            background: transparent;
             color: white;
-            border: 2px solid white;
-            padding: 15px 40px;
+            border: 1px solid white;
+            padding: 1rem 3rem;
             font-size: 1.2rem;
             cursor: pointer;
-            transition: 0.3s;
+            text-transform: uppercase;
         }
 
-        #enter-btn:hover {
-            background: white;
-            color: black;
-        }
-
-        /* 2. Video: Ekranı yamultmadan kaplaması için */
-        #intro-video {
+        /* Video: Arka planı tamamen kaplasın ama merkezde kalsın */
+        #bg-video {
             position: absolute;
             top: 50%;
             left: 50%;
+            transform: translate(-50%, -50%);
             min-width: 100%;
             min-height: 100%;
             width: auto;
             height: auto;
-            transform: translate(-50%, -50%); /* Tam merkezleme */
-            object-fit: cover; /* Videoyu kırpmadan/yamultmadan sığdırır */
+            object-fit: cover;
             display: none;
+            z-index: 1;
         }
 
-        /* 3. Final Yazısı */
+        /* Final Yazısı: O da tam ortada */
         #final-text {
             color: white;
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
-            text-align: center;
+            font-size: clamp(1.2rem, 5vw, 2rem);
             opacity: 0;
-            z-index: 20;
+            text-align: center;
+            z-index: 60;
             transition: opacity 2s ease;
-            padding: 0 20px;
+            position: absolute; /* Master wrapper içindeki place-items sayesinde ortalanır */
         }
     </style>
 </head>
 <body>
 
-    <div id="main-container">
-        <div id="start-ui">
+    <div id="master-wrapper">
+        <div id="start-box">
             <h1>SEOLX</h1>
             <button id="enter-btn">İçeri Gir</button>
         </div>
 
-        <video id="intro-video" playsinline>
+        <video id="bg-video" playsinline>
             <source src="second.mp4" type="video/mp4">
         </video>
 
@@ -107,26 +105,26 @@
     <audio id="bg-music" src="music.mp3"></audio>
 
     <script>
-        const container = document.getElementById('main-container');
+        const wrapper = document.getElementById('master-wrapper');
         const btn = document.getElementById('enter-btn');
-        const video = document.getElementById('intro-video');
-        const startUi = document.getElementById('start-ui');
+        const video = document.getElementById('bg-video');
+        const startBox = document.getElementById('start-box');
         const finalText = document.getElementById('final-text');
         const music = document.getElementById('bg-music');
 
         btn.onclick = () => {
-            startUi.style.display = 'none';
+            startBox.style.display = 'none';
             video.style.display = 'block';
             video.play();
         };
 
         video.onended = () => {
             video.style.display = 'none';
-            container.style.backgroundColor = 'white';
+            wrapper.style.backgroundColor = 'white';
             music.play();
 
             setTimeout(() => {
-                container.style.backgroundColor = 'black';
+                wrapper.style.backgroundColor = 'black';
                 setTimeout(() => {
                     finalText.style.opacity = '1';
                 }, 2500);
