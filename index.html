@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SEOLX</title>
     <style>
-        /* Arka Plan ve Genel Ayarlar */
+        /* Siyah Arka Plan ve Genel Font Ayarları */
         body, html {
             margin: 0;
             padding: 0;
@@ -24,7 +24,7 @@
             text-align: center;
         }
 
-        /* SEOLX Yazısı */
+        /* SEOLX Başlık Stili */
         h1 {
             font-size: 5rem;
             letter-spacing: 15px;
@@ -49,22 +49,29 @@
             color: #000;
         }
 
-        /* Çok Yakında Ekranı (İlk koddaki font ve boyut korundu) */
+        /* Çok Yakında Yazısı (Font Ayarları Korundu) */
         #coming-soon {
-            display: none;
+            display: none; /* Başlangıçta gizli */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 2s ease;
+        }
+
+        #coming-soon span {
             font-size: 3rem;
             font-weight: 300;
-            animation: fadeIn 2s ease;
+            display: block;
+            margin-bottom: 20px;
         }
 
         /* Yükleme Halkası (Spinner) */
         .loader {
-            margin: 20px auto 0; /* Yazının altına boşluk bırakıp ortalar */
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(255, 255, 255, 0.1);
+            width: 45px;
+            height: 45px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            border-top-color: #fff;
+            border-top-color: #fff; /* Dönen kısmın rengi */
             animation: spin 1s linear infinite;
         }
 
@@ -87,7 +94,7 @@
         </div>
         
         <div id="coming-soon">
-            <div>Çok Yakında</div>
+            <span>Çok Yakında</span>
             <div class="loader"></div>
         </div>
     </div>
@@ -96,13 +103,15 @@
 
     <script>
         function enterSite() {
+            // Müziği oynat
             const music = document.getElementById('bg-music');
             music.play().catch(error => {
-                console.log("Müzik çalma hatası: " + error);
+                console.log("Müzik çalma hatası: ", error);
             });
 
+            // Ekranları değiştir
             document.getElementById('main-screen').style.display = 'none';
-            document.getElementById('coming-soon').style.display = 'block';
+            document.getElementById('coming-soon').style.display = 'flex'; // Flex kullandık ki alt alta gelsinler
         }
     </script>
 
