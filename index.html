@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SEOLX</title>
     <style>
-        /* Siyah Arka Plan ve Genel Font Ayarları */
         body, html {
             margin: 0;
             padding: 0;
@@ -13,53 +12,73 @@
             height: 100%;
             background-color: #000;
             color: #fff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
         }
 
-        #container {
-            text-align: center;
-        }
+        #container { text-align: center; }
 
-        /* SEOLX Başlık Stili */
+        /* Ana Ekran */
         h1 {
-            font-size: 5rem;
+            font-size: clamp(3rem, 10vw, 6rem);
             letter-spacing: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             font-weight: 900;
+            text-transform: uppercase;
         }
 
-        /* İçeri Gir Butonu */
         #enter-btn {
             background: transparent;
             color: #fff;
-            border: 2px solid #fff;
-            padding: 10px 30px;
-            font-size: 1.2rem;
+            border: 1px solid #444;
+            padding: 12px 40px;
+            font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
+            transition: all 0.4s ease;
+            letter-spacing: 2px;
         }
 
         #enter-btn:hover {
             background: #fff;
             color: #000;
+            border-color: #fff;
         }
 
-        /* Çok Yakında Yazısı (Başlangıçta Gizli) */
-        #coming-soon {
+        /* Çok Yakında Ekranı */
+        #coming-soon-screen {
             display: none;
-            font-size: 3rem;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        #coming-soon-text {
+            font-size: 2rem;
             font-weight: 300;
-            animation: fadeIn 2s ease;
+            letter-spacing: 5px;
+        }
+
+        /* Yuvarlak Yükleme Animasyonu (Spinner) */
+        .loader {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: #fff; /* Sadece üst kısım beyaz */
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -68,27 +87,25 @@
     <div id="container">
         <div id="main-screen">
             <h1>SEOLX</h1>
-            <button id="enter-btn" onclick="enterSite()">İçeri Gir</button>
+            <button id="enter-btn" onclick="startExperience()">İçeri Gir</button>
         </div>
         
-        <div id="coming-soon">
-            Çok Yakında
-        </div>
+        <div id="coming-soon-screen">
+            <div id="coming-soon-text">ÇOK YAKINDA</div>
+            <div class="loader"></div> </div>
     </div>
 
     <audio id="bg-music" src="music.mp3" loop></audio>
 
     <script>
-        function enterSite() {
-            // Müziği oynat
+        function startExperience() {
+            // Müziği başlat
             const music = document.getElementById('bg-music');
-            music.play().catch(error => {
-                console.log("Tarayıcı otomatik oynatmayı engelledi, ancak butonla tetiklendiği için çalışacaktır.");
-            });
+            music.play().catch(e => console.log("Müzik başlatılamadı:", e));
 
-            // Ekran değiştirme
+            // Ekranları değiştir
             document.getElementById('main-screen').style.display = 'none';
-            document.getElementById('coming-soon').style.display = 'block';
+            document.getElementById('coming-soon-screen').style.display = 'flex';
         }
     </script>
 
